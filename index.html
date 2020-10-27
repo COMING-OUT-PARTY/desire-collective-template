@@ -1,1 +1,330 @@
-<iframe src="https://editor.p5js.org/thislittlepiggy/embed/i670XsA-w"></iframe>
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desire Collective</title>
+<style type="text/css">
+html,
+body {
+    margin: 0px;
+    height: 100%;
+    width: 100%
+}
+
+.container {
+    width: 100%;
+    height: 100%
+}
+
+.pane {
+    background: #34495e;
+    line-height: 28px;
+    color: #fff;
+    z-index: 10;
+    position: absolute;
+    top: 20px;
+    right: 20px
+}
+
+.pane a {
+    display: block;
+    color: #fff;
+    text-align: left;
+    padding: 0 10px;
+    min-width: 28px;
+    min-height: 28px;
+    float: left
+}
+
+#noAccessLayer {
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.actionButtons {
+    line-height: 28px;
+    color: #fff;
+    z-index: 10;
+    position: absolute;
+    bottom: 10px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+
+actionButtons button {
+    display: block;
+    color: #fff;
+    text-align: left;
+    padding: 0 10px;
+    min-width: 28px;
+    min-height: 28px;
+    float: left
+}
+
+.play-button-icon {
+    width: 3rem;
+    height: 3rem;
+    background: white;
+    border-radius: 2rem;
+    box-shadow: 1px 2px 5px 0px #0000006e;
+}
+
+.play-button {
+    background: transparent;
+    width: fit-content;
+    border: none;
+}
+
+#buttonGroup {
+    display: none;
+}
+
+.maptalks-attribution {
+    display: none !important;
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
+<!-- <script type="text/javascript" src="https://unpkg.com/three@0.97.0/build/three.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/maptalks.three/dist/maptalks.three.js"></script> -->
+<script type="text/javascript" src="./maptalks-config.js"></script>
+<script type="text/javascript" src="./tree-config.js"></script>
+
+<body>
+    <div id="map" class="container"></div>
+    <!-- <div class="pane">
+    <h6 id="accuracy_ml"></h6>
+</div> -->
+    <div id="buttonGroup" class="actionButtons">
+        <button id='play_pause' class="play-button" onclick="playRegionMusic()">
+            <img class="play-button-icon" src="play-button.svg">
+        </button>
+    </div>
+    <audio id="tree1_audio" preload="true">
+        <source src="https://sndup.net/9rfg/d" type="audio/mpeg" />
+    </audio>
+    <audio id="tree2_audio" preload="true">
+        <source src="https://sndup.net/9rfg/d" type="audio/mpeg" />
+    </audio>
+    <audio id="tree3_audio" preload="true">
+        <source src="https://sndup.net/9rfg/d" type="audio/mpeg" />
+    </audio>
+    <audio id="tree4_audio" preload="true">
+        <source src="https://sndup.net/9rfg/d" type="audio/mpeg" />
+    </audio>
+    <audio id="tree5_audio" preload="true">
+        <source src="https://sndup.net/9rfg/d" type="audio/mpeg" />
+    </audio>
+    <audio id="tree6_audio" preload="true">
+        <source src="https://sndup.net/9rfg/d" type="audio/mpeg" />
+    </audio>
+    <div id="noAccessLayer" class="container">
+        <p>You are too far away from the concert.</p>
+    </div>
+    <script>
+    // Spoof Location
+    // var position = {};
+    // var latitude = 13.10885;
+    // var longitude = 80.18646;
+
+    let i = 0;
+    // var marker;
+    var currMusicId;
+    var currentTree;
+    var treeMarker;
+    var userLayer;
+    var treeLayer;
+    var GPS_OPTIONS_HA = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
+    var GPS_OPTIONS_LA = {
+        enableHighAccuracy: false,
+        timeout: 10000,
+        maximumAge: 60000
+    };
+    var dist;
+    // Basic map configuration.
+    var map = new maptalks.Map('map', {
+        center: maptalksConfig.centerCoords,
+        zoom: 19,
+        // minZoom: 19, // set map's min zoom to 14
+        // maxZoom: 20,
+        pitch: 60,
+        bearing: 25,
+        centerCross: false,
+        baseLayer: new maptalks.TileLayer('base', {
+            urlTemplate: maptalksConfig.urlTemplate,
+            subdomains: maptalksConfig.subdomains,
+            attribution: 'Coming out Party'
+        })
+    });
+
+    treeLayer = new maptalks.VectorLayer('TreeLayer').addTo(map);
+    userLayer = new maptalks.VectorLayer('UserLayer').addTo(map);
+    treeConfig.forEach((tree) => {
+        // For THREE.js integeration
+        // treeMarker = new maptalks.ui.UIMarker(tree.coords, {
+        //     'draggable': false,
+        //     'single': false,
+        //     'content': `<div id="${tree.name}"></div>`
+        // });
+        // treeMarker.addTo(map).show();
+        // createThreeLayer(tree.name);
+
+        treeMarker = new maptalks.Marker(
+            tree.coords, {
+                'symbol': {
+                    'markerFile': 'tree1.png',
+                    'markerWidth': 40,
+                    'markerHeight': 40,
+                    'markerDx': 0,
+                    'markerDy': 0,
+                    'markerOpacity': 1
+                }
+            }
+        ).addTo(treeLayer);
+    });
+
+    // Checking for user's location.
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(checkIfUserIsNearThePark, error, GPS_OPTIONS_HA);
+        // move();
+    } else {
+        alert("Location is not enabled. Please enalble location in your device and refresh the page.")
+    }
+
+    function checkIfUserIsNearThePark(position) {
+        //checkIfUserIsNearTheTree(userLat, userLon);
+        userLat = position.coords.latitude;
+        userLon = position.coords.longitude;
+        console.log('Your current position is:');
+        console.log(`Latitude : ${position.coords.latitude}`);
+        console.log(`Longitude: ${position.coords.longitude}`);
+        console.log(`More or less ${position.coords.accuracy} meters.`);
+        console.log(`Maptalks center : ${maptalksConfig.centerCoords}`);
+        //document.getElementById('accuracy_ml').innerHTML = `More or less ${position.coords.accuracy} meters.`;
+
+        dist = map.computeLength([userLon, userLat], maptalksConfig.centerCoords);
+        console.log(`Distance ${dist}`);
+        if (dist <= 500) {
+            document.getElementById("noAccessLayer").style.display = 'none';
+            document.getElementById("map").style.display = 'block';
+            navigator.geolocation.watchPosition(updatePosition, error);
+        } else {
+            navigator.geolocation.getCurrentPosition(checkIfUserIsNearThePark, error, GPS_OPTIONS_HA);
+            document.getElementById("noAccessLayer").style.display = 'flex';
+            document.getElementById("map").style.display = 'none';
+        }
+    }
+
+    function error(err) {
+        //document.getElementById('accuracy_ml').innerHTML = `ERROR(${err.code}): ${err.message}`;
+
+        if (error.code == error.TIMEOUT) {
+            // try low accuracy location
+            navigator.geolocation.getCurrentPosition(checkIfUserIsNearThePark, error_lowAccuracy, GPS_OPTIONS_LA);
+        }
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+
+    function error_lowAccuracy(err) {
+        // document.getElementById('accuracy_ml').innerHTML = `ERROR(${err.code}): ${err.message} in low accuracy.`;
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+
+    function updatePosition(position) {
+        userLat = position.coords.latitude;
+        userLon = position.coords.longitude;
+        //i++;
+        //document.getElementById('accuracy_ml').innerHTML = `${i} :  More or less ${position.coords.accuracy} meters.`;
+        // marker = new maptalks.Circle([userLon, userLat], 5, {
+        //     'symbol': {
+        //         lineColor: '#34495e',
+        //         lineWidth: 0,
+        //         polygonFill: 'rgb(135,196,240)',
+        //         polygonOpacity: 1
+        //     },
+        //     properties: {
+        //         altitude: 0
+        //     }
+        // });
+
+        console.log(`User Marker - ${userLayer.getGeometryById('UserMarker')}`);
+        userMarker = new maptalks.Marker(
+            [userLon, userLat], {
+                'id': 'UserMarker',
+                'symbol': {
+                    'markerFile': 'user-indicator.png',
+                    'markerWidth': 25,
+                    'markerHeight': 25,
+                    'markerDx': 0,
+                    'markerDy': 0,
+                    'markerOpacity': 1
+                }
+            }
+        );
+        if (userLayer.getGeometryById('UserMarker') != null) {
+            userLayer.removeGeometry('UserMarker');
+        }
+        userMarker.addTo(userLayer);
+
+        // if (userLayer != undefined || userLayer != '' || userLayer != null) {
+        //     map.removeLayer(userLayer);
+        //     userLayer = new maptalks.VectorLayer('vector').addGeometry([marker]).addTo(map);
+        // } else {
+        //     userLayer = new maptalks.VectorLayer('vector').addGeometry([marker]).addTo(map);
+        // }
+
+        treeConfig.forEach((tree) => {
+            checkIfUserIsNearTheTree([userLon, userLat], tree);
+            console.log(` ${tree.name} - ${tree.allowMusicPlayBack}`);
+        });
+
+        if (treeConfig.filter(tree => tree.allowMusicPlayBack == true).length > 0) {
+            document.getElementById('buttonGroup').style.display = 'flex';
+        } else {
+            document.getElementById('buttonGroup').style.display = 'none';
+        }
+    }
+
+    function checkIfUserIsNearTheTree(userCoords, tree) {
+        var userTreeDist = map.computeLength(userCoords, tree.coords);
+        console.log(`userTreeDist:  ${tree.name} - ${userTreeDist}`);
+
+        // if (userTreeDist < 20) {
+        //     currMusicId = `${tree.name}_audio`;
+        //     //currentTree = tree;
+        //     document.getElementById('buttonGroup').style.display = 'flex';
+        // }
+
+        if (userTreeDist < 20) {
+            tree.allowMusicPlayBack = true;
+            currentTree = tree;
+        } else {
+            if (!document.getElementById(tree.musicId).paused) {
+                document.getElementById(tree.musicId).pause();
+            }
+            tree.allowMusicPlayBack = false;
+        }
+    }
+
+    function playRegionMusic() {
+        if (currentTree != undefined) {
+            var audio = document.getElementById(currentTree.musicId);
+            if (document.getElementById(currentTree.musicId).paused) {
+                document.getElementById(currentTree.musicId).play();
+            } else {
+                document.getElementById(currentTree.musicId).pause();
+            }
+        }
+    }
+    </script>
+</body>
+
+</html>
