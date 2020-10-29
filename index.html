@@ -4,11 +4,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Desire Collective</title>
 <style type="text/css">
+
+@font-face {
+    font-family: "TypeWriter";
+    src: url("./typewriter.ttf");
+}
+
 html,
 body {
     margin: 0px;
     height: 100%;
-    width: 100%
+    width: 100%;
+    font-family: "TypeWriter";
+    font-weight: 400;
 }
 
 .container {
@@ -16,30 +24,73 @@ body {
     height: 100%
 }
 
-.pane {
-    background: #34495e;
-    line-height: 28px;
-    color: #fff;
-    z-index: 10;
-    position: absolute;
-    top: 20px;
-    right: 20px
-}
-
-.pane a {
-    display: block;
-    color: #fff;
-    text-align: left;
-    padding: 0 10px;
-    min-width: 28px;
-    min-height: 28px;
-    float: left
-}
-
-#noAccessLayer {
+#AccessLayer{
     display: none;
-    justify-content: center;
+}
+
+#NoAccessLayer {
+    display: none;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+}
+
+.no-access-message{
+    font-size: 30px;
+    margin: 0 2rem;
+    text-align: center;
+}
+
+#MusicTitle {
+    color: #bf2674;
+    position: absolute;
+    justify-content: center;
+    border-radius: 30px;
+    align-items: center;
+    top: 15px;
+    width: 100%;
+    display: none;
+    height: 40px;
+    z-index: 10;
+}
+
+#MusicTitle>p {
+    background: white;
+    width: max-content;
+    padding: 8px;
+    font-size: 14px;
+    margin: 0;
+    border-radius: 40px;
+    box-shadow: 0px 1px 3px 0px #0000006e;
+}
+
+.header {
+    display: flex;
+}
+
+.brand-logo {
+    width: 80px;
+    height: 80px; 
+    position: absolute;
+    z-index: 10;
+    top: 0px;
+}
+
+.brand-logo>img {
+    width: 75px;
+    height: 75px;
+}
+.brand-logo-big{
+    width: 250px;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    margin: 0 0 calc(50vh - 250px) 0;
+}
+
+.brand-logo-big>img {
+    width: 225px;
+    height: 225px;
 }
 
 .actionButtons {
@@ -49,28 +100,10 @@ body {
     position: absolute;
     bottom: 10px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     width: 100%;
     flex-wrap: nowrap;
     flex-direction: row;
-}
-
-actionButtons button {
-    display: block;
-    color: #fff;
-    text-align: left;
-    padding: 0 10px;
-    min-width: 28px;
-    min-height: 28px;
-    float: left
-}
-
-.play-button-icon {
-    width: 3rem;
-    height: 3rem;
-    background: white;
-    border-radius: 2rem;
-    box-shadow: 1px 2px 5px 0px #0000006e;
 }
 
 .play-button {
@@ -79,65 +112,123 @@ actionButtons button {
     border: none;
 }
 
+.play-button>img {
+    width: 4rem;
+    height: 4rem;
+    background: white;
+    border-radius: 2rem;
+    box-shadow: 1px 2px 5px 0px #0000006e;
+}
+
+.recenter-button {
+    background: transparent;
+    width: fit-content;
+    border: none;
+}
+
+.recenter-button>img {
+    width: 3rem;
+    height: 3rem;
+    background: white;
+    border-radius: 2rem;
+    box-shadow: 1px 2px 5px 0px #0000006e;
+}
+
+.fullscreen-button {
+    background: transparent;
+    width: fit-content;
+    border: none;
+}
+
+.fullscreen-button>img {
+    width: 3rem;
+    height: 3rem;
+    background: white;
+    border-radius: 2rem;
+    box-shadow: 1px 2px 5px 0px #0000006e;
+}
+
 #buttonGroup {
+    bottom: 0px;
+}
+
+#play_pause {
     display: none;
 }
 
 .maptalks-attribution {
     display: none !important;
 }
+
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
-<!-- <script type="text/javascript" src="https://unpkg.com/three@0.97.0/build/three.min.js"></script>
-<script type="text/javascript" src="https://unpkg.com/maptalks.three/dist/maptalks.three.js"></script> -->
 <script type="text/javascript" src="./maptalks-config.js"></script>
 <script type="text/javascript" src="./tree-config.js"></script>
 
 <body>
-    <div id="map" class="container"></div>
-    <!-- <div class="pane">
-    <h6 id="accuracy_ml"></h6>
-</div> -->
-    <div id="buttonGroup" class="actionButtons">
-        <button id='play_pause' class="play-button" onclick="playRegionMusic()">
-            <img class="play-button-icon" src="play-button.svg">
-        </button>
-    </div>
-    <audio id="tree1_audio" preload="true">
-        <source src="https://sndup.net/9rfg/d" type="audio/mpeg" />
-    </audio>
-    <audio id="tree2_audio" preload="true">
-        <source src="https://sndup.net/9rfg/d" type="audio/mpeg" />
-    </audio>
-    <audio id="tree3_audio" preload="true">
-        <source src="https://sndup.net/9rfg/d" type="audio/mpeg" />
-    </audio>
-    <audio id="tree4_audio" preload="true">
-        <source src="https://sndup.net/9rfg/d" type="audio/mpeg" />
-    </audio>
-    <audio id="tree5_audio" preload="true">
-        <source src="https://sndup.net/9rfg/d" type="audio/mpeg" />
-    </audio>
-    <audio id="tree6_audio" preload="true">
-        <source src="https://sndup.net/9rfg/d" type="audio/mpeg" />
-    </audio>
-    <div id="noAccessLayer" class="container">
-        <p>You are too far away from the concert.</p>
+    <div id="AccessLayer">
+        <div id="Map" class="container"></div>
+        <div class='header'>
+            <div class='brand-logo'>
+                <img src="dc-logo.svg">
+            </div>
+            <div id='MusicTitle'>
+                <p id='MusicTitleText'></p>
+            </div>
+        </div>
+        <div id="buttonGroup" class="actionButtons">
+            <button class="fullscreen-button" onclick="maximizeWindow()">
+                <img id='fullscreen-icon' src="maximize-icon.svg">
+            </button>
+            <button id='play_pause' class="play-button" onclick="playRegionMusic()">
+                <img id='play-pause-icon' src="play-icon.svg">
+            </button>
+            <button class="recenter-button" onclick="recenter()">
+                <img src="recenter-icon.svg">
+            </button>
+        </div>
+        <audio id="tree1_audio" preload="true">
+            <source src="https://sndup.net/5g62/d" type="audio/mpeg" />
+        </audio>
+        <audio id="tree2_audio" preload="true">
+            <source src="https://sndup.net/5g62/d" type="audio/mpeg" />
+        </audio>
+        <audio id="tree3_audio" preload="true">
+            <source src="https://sndup.net/5g62/d" type="audio/mpeg" />
+        </audio>
+        <audio id="tree4_audio" preload="true">
+            <source src="https://sndup.net/5g62/d" type="audio/mpeg" />
+        </audio>
+        <audio id="tree5_audio" preload="true">
+            <source src="https://sndup.net/5g62/d" type="audio/mpeg" />
+        </audio>
+    </div>  
+    <div id="NoAccessLayer" class="container">
+        <div class="no-access-message">
+            <p>You are too far away from the concert.</p>
+        </div>
+        <div class="brand-logo-big">
+            <img src="dc-logo.svg">
+        </div>
     </div>
     <script>
-    // Spoof Location
-    // var position = {};
-    // var latitude = 13.10885;
-    // var longitude = 80.18646;
 
-    let i = 0;
-    // var marker;
     var currMusicId;
     var currentTree;
-    var treeMarker;
+
+    var userLat;
+    var userLon;
+
     var userLayer;
+    var userMarker;
+
     var treeLayer;
+    var treeMarker;
+
+    var parkOutlinelayer;
+    var parkOutlineMarker;
+
     var GPS_OPTIONS_HA = {
         enableHighAccuracy: true,
         timeout: 5000,
@@ -148,114 +239,125 @@ actionButtons button {
         timeout: 10000,
         maximumAge: 60000
     };
+
     var dist;
+
     // Basic map configuration.
-    var map = new maptalks.Map('map', {
+    var map = new maptalks.Map('Map', {
         center: maptalksConfig.centerCoords,
-        zoom: 19,
-        // minZoom: 19, // set map's min zoom to 14
-        // maxZoom: 20,
+        zoom: 17,
+        minZoom: 16, // set map's min zoom to 14
+        maxZoom: 20,
         pitch: 60,
         bearing: 25,
         centerCross: false,
         baseLayer: new maptalks.TileLayer('base', {
             urlTemplate: maptalksConfig.urlTemplate,
             subdomains: maptalksConfig.subdomains,
-            attribution: 'Coming out Party'
+            attribution: maptalksConfig.attribution
         })
     });
 
+    parkOutlinelayer = new maptalks.VectorLayer('ParkOutlineLayer', { enableAltitude: true }).addTo(map);
     treeLayer = new maptalks.VectorLayer('TreeLayer').addTo(map);
     userLayer = new maptalks.VectorLayer('UserLayer').addTo(map);
-    treeConfig.forEach((tree) => {
-        // For THREE.js integeration
-        // treeMarker = new maptalks.ui.UIMarker(tree.coords, {
-        //     'draggable': false,
-        //     'single': false,
-        //     'content': `<div id="${tree.name}"></div>`
-        // });
-        // treeMarker.addTo(map).show();
-        // createThreeLayer(tree.name);
 
+    var parkOutlineMarker = new maptalks.Polygon(
+        [maptalksConfig.parkOutlineCoords], {
+            visible: true,
+            shadowBlur: 50,
+            shadowColor: 'black',
+            symbol: {
+                'lineColor': '#CC297B',
+                'lineWidth': 1,
+                'polygonFill': 'transparent',
+                'polygonOpacity': 1
+            },
+            properties: {
+                altitude: 0
+            }
+        });
+
+    parkOutlineMarker.animate({
+        symbol: {
+            'lineWidth': 5
+        },
+        properties: {
+            altitude: 5
+        }
+    }, {
+        repeat: true
+    });
+
+    parkOutlineMarker.addTo(parkOutlinelayer);
+
+    //Traversing each tree and rendering a marker for each tree
+    treeConfig.forEach((tree) => {
         treeMarker = new maptalks.Marker(
             tree.coords, {
                 'symbol': {
-                    'markerFile': 'tree1.png',
+                    'markerFile': 'tree-icon.svg',
                     'markerWidth': 50,
-                    'markerHeight': 50,
+                    'markerHeight': 60,
                     'markerDx': 0,
                     'markerDy': 0,
                     'markerOpacity': 1
                 }
             }
         ).addTo(treeLayer);
+
+        // Listener to change the play icon when the music ends 
+        document.getElementById(tree.musicId).addEventListener('ended', () => {
+            document.getElementById('play-pause-icon').src = 'play-icon.svg';
+        });
     });
 
     // Checking for user's location.
     if (navigator.geolocation) {
+        // To get the user's position in high accuracy mode
         navigator.geolocation.getCurrentPosition(checkIfUserIsNearThePark, error, GPS_OPTIONS_HA);
-        // move();
     } else {
         alert("Location is not enabled. Please enalble location in your device and refresh the page.")
     }
 
+    // To check whether the user is near the park and show the map or No Access message accordingly
     function checkIfUserIsNearThePark(position) {
-        //checkIfUserIsNearTheTree(userLat, userLon);
         userLat = position.coords.latitude;
         userLon = position.coords.longitude;
-        console.log('Your current position is:');
-        console.log(`Latitude : ${position.coords.latitude}`);
-        console.log(`Longitude: ${position.coords.longitude}`);
-        console.log(`More or less ${position.coords.accuracy} meters.`);
-        console.log(`Maptalks center : ${maptalksConfig.centerCoords}`);
-        //document.getElementById('accuracy_ml').innerHTML = `More or less ${position.coords.accuracy} meters.`;
-
         dist = map.computeLength([userLon, userLat], maptalksConfig.centerCoords);
-        console.log(`Distance ${dist}`);
-        if (dist <= 500) {
-            document.getElementById("noAccessLayer").style.display = 'none';
-            document.getElementById("map").style.display = 'block';
+        console.log(`Distance from center ${dist}`);
+        if (dist <= maptalksConfig.maxDistanceFromPark) {
+            document.getElementById("NoAccessLayer").style.display = 'none';
+            document.getElementById("AccessLayer").style.display = 'contents';
+            document.getElementById("Map").style.display = 'block';
             navigator.geolocation.watchPosition(updatePosition, error);
         } else {
             navigator.geolocation.getCurrentPosition(checkIfUserIsNearThePark, error, GPS_OPTIONS_HA);
-            document.getElementById("noAccessLayer").style.display = 'flex';
-            document.getElementById("map").style.display = 'none';
+            document.getElementById("AccessLayer").style.display = 'none';
+            document.getElementById("NoAccessLayer").style.display = 'flex';
+            document.getElementById("Map").style.display = 'none';
         }
     }
 
+    // Common error handler for handling errors during fetching user's position
     function error(err) {
-        //document.getElementById('accuracy_ml').innerHTML = `ERROR(${err.code}): ${err.message}`;
-
         if (error.code == error.TIMEOUT) {
-            // try low accuracy location
+            // To get the user's position with low accuracy if high accuracy fails
             navigator.geolocation.getCurrentPosition(checkIfUserIsNearThePark, error_lowAccuracy, GPS_OPTIONS_LA);
         }
         console.warn(`ERROR(${err.code}): ${err.message}`);
     }
 
+    // Error handler for logging the error code recieved in low accuracy mode 
     function error_lowAccuracy(err) {
-        // document.getElementById('accuracy_ml').innerHTML = `ERROR(${err.code}): ${err.message} in low accuracy.`;
         console.warn(`ERROR(${err.code}): ${err.message}`);
     }
 
     function updatePosition(position) {
         userLat = position.coords.latitude;
         userLon = position.coords.longitude;
-        //i++;
-        //document.getElementById('accuracy_ml').innerHTML = `${i} :  More or less ${position.coords.accuracy} meters.`;
-        // marker = new maptalks.Circle([userLon, userLat], 5, {
-        //     'symbol': {
-        //         lineColor: '#34495e',
-        //         lineWidth: 0,
-        //         polygonFill: 'rgb(135,196,240)',
-        //         polygonOpacity: 1
-        //     },
-        //     properties: {
-        //         altitude: 0
-        //     }
-        // });
 
-        console.log(`User Marker - ${userLayer.getGeometryById('UserMarker')}`);
+        // Marker to denote the user's position.
         userMarker = new maptalks.Marker(
             [userLon, userLat], {
                 'id': 'UserMarker',
@@ -274,36 +376,28 @@ actionButtons button {
         }
         userMarker.addTo(userLayer);
 
-        // if (userLayer != undefined || userLayer != '' || userLayer != null) {
-        //     map.removeLayer(userLayer);
-        //     userLayer = new maptalks.VectorLayer('vector').addGeometry([marker]).addTo(map);
-        // } else {
-        //     userLayer = new maptalks.VectorLayer('vector').addGeometry([marker]).addTo(map);
-        // }
-
+        // To check if the user is near any tree
         treeConfig.forEach((tree) => {
             checkIfUserIsNearTheTree([userLon, userLat], tree);
-            console.log(` ${tree.name} - ${tree.allowMusicPlayBack}`);
         });
 
+        // To check if any music play back is allowed. if true play button is displayed, else play button stays hidden.
         if (treeConfig.filter(tree => tree.allowMusicPlayBack == true).length > 0) {
-            document.getElementById('buttonGroup').style.display = 'flex';
+            document.getElementById('play_pause').style.display = 'block';
+            document.getElementById('MusicTitleText').innerHTML = currentTree.musicTitle;
+            document.getElementById('MusicTitle').style.display = 'flex';
         } else {
-            document.getElementById('buttonGroup').style.display = 'none';
+            document.getElementById('play-pause-icon').src = 'play-icon.svg';
+            document.getElementById('play_pause').style.display = 'none';
+            document.getElementById('MusicTitleText').innerHTML = '';
+            document.getElementById('MusicTitle').style.display = 'none';
         }
     }
 
+    // To check if the user is near any tree. if yes then allow music playback for the particular tree.
     function checkIfUserIsNearTheTree(userCoords, tree) {
         var userTreeDist = map.computeLength(userCoords, tree.coords);
-        console.log(`userTreeDist:  ${tree.name} - ${userTreeDist}`);
-
-        // if (userTreeDist < 20) {
-        //     currMusicId = `${tree.name}_audio`;
-        //     //currentTree = tree;
-        //     document.getElementById('buttonGroup').style.display = 'flex';
-        // }
-
-        if (userTreeDist < 20) {
+        if (userTreeDist <= maptalksConfig.maxDistanceFromTree) {
             tree.allowMusicPlayBack = true;
             currentTree = tree;
         } else {
@@ -314,17 +408,65 @@ actionButtons button {
         }
     }
 
+    // To play the music.
     function playRegionMusic() {
         if (currentTree != undefined) {
             var audio = document.getElementById(currentTree.musicId);
             if (document.getElementById(currentTree.musicId).paused) {
+                document.getElementById('play-pause-icon').src = 'pause-icon.svg';
                 document.getElementById(currentTree.musicId).play();
             } else {
+                document.getElementById('play-pause-icon').src = 'play-icon.svg';
                 document.getElementById(currentTree.musicId).pause();
             }
         }
     }
+
+    // To maximize and minimize the screen.
+    function maximizeWindow() {
+        var elem = document.getElementsByTagName("body")[0];
+        if (!document.fullscreenElement) {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) { /* Safari */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE11 */
+                elem.msRequestFullscreen();
+            }
+            document.getElementById('fullscreen-icon').src = 'minimize-icon.svg';
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) { /* Safari */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { /* IE11 */
+                document.msExitFullscreen();
+            }
+            document.getElementById('fullscreen-icon').src = 'maximize-icon.svg';
+        }
+    }
+
+    // Event listener for when the user enters or exits the fullscreen without clicking the button.
+    document.addEventListener('fullscreenchange', () => {
+        if (document.fullscreenElement) {
+            document.getElementById('fullscreen-icon').src = 'minimize-icon.svg';
+        } else {
+            document.getElementById('fullscreen-icon').src = 'maximize-icon.svg';
+        }
+    });
+
+    // To re-center the map to user's position.
+    function recenter() {
+        map.animateTo({
+            center: [userLon, userLat],
+            zoom: 20,
+            pitch: 60,
+            bearing: 25
+        }, {
+            duration: 1500
+        });
+    }
+
     </script>
 </body>
-
 </html>
