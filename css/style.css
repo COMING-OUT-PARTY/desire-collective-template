@@ -11,7 +11,10 @@ body {
   font-family: "TypeWriter";
   font-weight: 400;
 }
-
+button:focus {
+  outline: none !important;
+  background-color: transparent !important;
+}
 .container {
   width: 100%;
   height: 100%;
@@ -56,6 +59,7 @@ body {
   position: absolute;
   border-radius: 10px;
   overflow-wrap: break-word;
+  line-height: 20px;
 }
 
 .header {
@@ -102,46 +106,23 @@ body {
   flex-direction: row;
 }
 
-.play-button {
-  background: transparent;
+.play-button,
+.recenter-button,
+.fullscreen-button {
   width: fit-content;
   border: none;
+  background-color: transparent;
 }
 
 .play-button > img {
   width: 7rem;
   height: 7rem;
-  background: white;
-  border-radius: 5rem;
-  box-shadow: 1px 2px 5px 0px #0000006e;
 }
 
-.recenter-button {
-  background: transparent;
-  width: fit-content;
-  border: none;
-}
-
-.recenter-button > img {
-  width: 3rem;
-  height: 3rem;
-  background: white;
-  border-radius: 2rem;
-  box-shadow: 1px 2px 5px 0px #0000006e;
-}
-
-.fullscreen-button {
-  background: transparent;
-  width: fit-content;
-  border: none;
-}
-
+.recenter-button > img,
 .fullscreen-button > img {
   width: 3rem;
   height: 3rem;
-  background: white;
-  border-radius: 2rem;
-  box-shadow: 1px 2px 5px 0px #0000006e;
 }
 
 #buttonGroup {

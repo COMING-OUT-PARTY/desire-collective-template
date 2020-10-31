@@ -5,7 +5,7 @@ const treeConfig = [
     musicPlaybackRadius: 5,
     musicId: "tree1_audio",
     allowMusicPlayBack: false,
-    musicTitle: "ANIMALINSIDE………………………………………………pdmnbhn, anish and text by Laszlo Krasznahorkai"
+    musicTitle: "ANIMALINSIDE - pdmnbhn, anish and text by Laszlo Krasznahorkai"
   },
   {
     name: "tree2",
@@ -13,7 +13,7 @@ const treeConfig = [
     musicPlaybackRadius: 5,
     musicId: "tree2_audio",
     allowMusicPlayBack: false,
-    musicTitle: "SOUVENIRS FOR A TERRAFORMED PLANET…………pdmnbhn"
+    musicTitle: "SOUVENIRS FOR A TERRAFORMED PLANET - pdmnbhn"
   },
   {
     name: "tree4",
@@ -21,7 +21,7 @@ const treeConfig = [
     musicPlaybackRadius: 10,
     musicId: "tree4_audio",
     allowMusicPlayBack: false,
-    musicTitle: "THEM HOWL…………………………………………………anish"
+    musicTitle: "THEM HOWL - anish"
   },
   {
     name: "tree3",
@@ -29,7 +29,7 @@ const treeConfig = [
     musicPlaybackRadius: 5,
     musicId: "tree3_audio",
     allowMusicPlayBack: false,
-    musicTitle: "UNNOTICED HOWLS ARE MUTED………………………pdmnbhn & anish"
+    musicTitle: "UNNOTICED HOWLS ARE MUTED - pdmnbhn & anish"
   },
   {
     name: "tree5",
@@ -37,7 +37,7 @@ const treeConfig = [
     musicPlaybackRadius: 5,
     musicId: "tree5_audio",
     allowMusicPlayBack: false,
-    musicTitle: "ER=EPR / WHIPPERSNAPPER……………………………pdmnbhn & vidur"
+    musicTitle: "ER=EPR / WHIPPERSNAPPER - pdmnbhn & vidur"
   },
   {
     name: "tree6",
@@ -45,6 +45,6 @@ const treeConfig = [
     musicPlaybackRadius: 5,
     musicId: "tree6_audio",
     allowMusicPlayBack: false,
-    musicTitle: "DOGS DO NOT WEAR LEATHER / ZOE……………………pdmnbhn, & anish"
+    musicTitle: "DOGS DO NOT WEAR LEATHER / ZOE - pdmnbhn, & anish"
   }
 ];
