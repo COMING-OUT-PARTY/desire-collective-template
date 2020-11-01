@@ -15,8 +15,8 @@ button:focus {
   outline: none !important;
   background-color: transparent !important;
 }
-.no-access-message>p{
- line-height: 20px;
+.no-access-message > p {
+  line-height: 30px;
 }
 .container {
   width: 100%;
