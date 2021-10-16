@@ -4,7 +4,7 @@
     subdomains : Leave it as it is.
     attribution : Attribution text displayed at the bottom right corner.
     centerCoords : The center coordinates of the event.
-    maxDistanceFromEvent : The maximum distance b/w user and the event's center coordinates to trigger "far away" warning.  
+    maxDistanceFromEvent : The maximum distance (in metres) b/w user and the event's center coordinates to trigger "far away" warning.  
     eventOutlineCoords : The ouline coordinates for the event used.
 */
 

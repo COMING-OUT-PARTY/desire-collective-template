@@ -96,29 +96,27 @@ let onEndAudio = () => {
     document.getElementById("play-pause-icon").src = "images/play-icon.svg";
 };
 //Traversing each tree and rendering a marker for each tree
-treeConfig.forEach((tree) => {
-    treeMarker = new maptalks.Marker(tree.coords, {
-        symbol: {
-            markerFile: "images/tree-icon.svg",
-            markerWidth: 55,
-            markerHeight: 75,
-            markerDx: 0,
-            markerDy: 0,
-            markerOpacity: 1,
-        },
-    }).addTo(treeLayer);
+treeConfig.forEach(({ coords, musicId, url = null, ...rest }) => {
+    if (url) {
+        let audio = new Audio(url);
+        if (isNaN(audio.duration)) {
+            audio.id = musicId;
+            audio.preload = true;
+            audio.addEventListener("ended", onEndAudio);
+            document.body.appendChild(audio);
 
-    if (tree.url) {
-        let audio = document.createElement("audio");
-        audio.id = tree.musicId;
-        audio.src = tree.url;
-        audio.preload = true;
-        audio.addEventListener("ended", onEndAudio);
-        document.body.appendChild(audio);
+            treeMarker = new maptalks.Marker(coords, {
+                symbol: {
+                    markerFile: "images/tree-icon.svg",
+                    markerWidth: 55,
+                    markerHeight: 75,
+                    markerDx: 0,
+                    markerDy: 0,
+                    markerOpacity: 1,
+                },
+            }).addTo(treeLayer);
+        }
     }
-
-    // Listener to change the play icon when the music ends
-    // document.getElementById(tree.musicId).addEventListener("ended", onEndAudio);
 });
 
 // Checking for user's location.
